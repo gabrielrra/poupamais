@@ -9,8 +9,15 @@
 import React from 'react';
 import {FlatList, TouchableOpacity, View, Text, StatusBar} from 'react-native';
 import moment from 'moment';
+
+/**Set the initial date here*/
+
+//2020 - first Saturday
 const begin = moment('04/01/2020', 'DD/MM/YYYY');
-// const weeks = semanas();
+//2021 - first Saturday
+// const begin = moment('02/01/2021', 'DD/MM/YYYY');
+//2022 - first Saturday
+// const begin = moment('01/01/2022', 'DD/MM/YYYY');
 
 class App extends React.Component {
   constructor(props) {
@@ -20,11 +27,11 @@ class App extends React.Component {
     };
   }
   componentDidMount() {
-    this.semanas();
+    this.setWeeks();
   }
-  semanas() {
+  setWeeks() {
     let weeks = [];
-    let tempDate = moment('04/01/2020', 'DD/MM/YYYY');
+    let tempDate = moment(begin);
     let tempMoney = 5;
     for (let i = 0; i < 52; i++) {
       let week = {};
@@ -38,20 +45,33 @@ class App extends React.Component {
       weeks.push(week);
     }
     let weeksLeft = 52;
+    let ammountSaved = 0;
     weeks.map(week => {
       if (week.complete) {
         weeksLeft -= 1;
+        ammountSaved += week.money;
       }
     });
-    this.setState({weeks: weeks, weeksLeft: weeksLeft});
+    this.setState({
+      weeks: weeks,
+      weeksLeft: weeksLeft,
+      ammountSaved: ammountSaved,
+    });
   }
   render() {
     return (
-      <View style={{flex: 1}}>
-        <Text style={{color: '#000', fontSize: 30, alignSelf: 'center'}}>
-          {`${this.state.weeksLeft} Semanas Restando!!`}
+      <View style={{flex: 1, width: '100%', alignItems: 'center'}}>
+        <Text style={{color: '#000', fontSize: 30, margin: 8}}>
+          {`${this.state.weeksLeft} Semanas restando!!`}
         </Text>
-        <FlatList data={this.state.weeks} renderItem={this.renderItem} />
+        <Text style={{color: '#000', fontSize: 18, margin: 8}}>
+          {`R$${this.state.ammountSaved},00 poupados`}
+        </Text>
+        <FlatList
+          data={this.state.weeks}
+          renderItem={this.renderItem}
+          style={{width: '90%'}}
+        />
       </View>
     );
   }

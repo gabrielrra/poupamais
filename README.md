@@ -5,3 +5,5 @@
 Automatically check if a week have passed and change color, shows the date of all saturdays and the amount you should deposit in the week.
 
 Developed in React Native (0.61.5).
+
+Language: Portuguese - BR.
